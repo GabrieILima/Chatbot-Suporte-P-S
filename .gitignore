@@ -1,3 +1,4 @@
 ﻿.env
 __pycache__/
 *.py[cod]
+.venv311/
