@@ -2,9 +2,17 @@
 from typing import List, Tuple, Any
 
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
+from langchain_openai import AzureChatOpenAI, ChatOpenAI
 
-from src.config import OPENAI_API_KEY, MODEL_NAME
+from src.config import (
+    LLM_PROVIDER,
+    OPENAI_API_KEY,
+    MODEL_NAME,
+    AZURE_OPENAI_ENDPOINT,
+    AZURE_OPENAI_API_KEY,
+    AZURE_OPENAI_API_VERSION,
+    AZURE_OPENAI_CHAT_DEPLOYMENT,
+)
 from src.rag.vectorstore import get_vectorstore
 
 logger = logging.getLogger(__name__)
@@ -28,13 +36,26 @@ Resposta:"""
 
     def _get_llm(self):
         if self._llm is None:
-            if not OPENAI_API_KEY:
-                raise RuntimeError("OPENAI_API_KEY ausente - LLM indisponivel.")
-            self._llm = ChatOpenAI(
-                api_key=OPENAI_API_KEY,
-                model_name=MODEL_NAME,
-                temperature=0.3,
-            )
+            if LLM_PROVIDER == "azure":
+                if not (AZURE_OPENAI_ENDPOINT and AZURE_OPENAI_API_KEY and AZURE_OPENAI_CHAT_DEPLOYMENT):
+                    raise RuntimeError("Config Azure OpenAI incompleta para chat.")
+                self._llm = AzureChatOpenAI(
+                    azure_endpoint=AZURE_OPENAI_ENDPOINT,
+                    api_key=AZURE_OPENAI_API_KEY,
+                    api_version=AZURE_OPENAI_API_VERSION,
+                    azure_deployment=AZURE_OPENAI_CHAT_DEPLOYMENT,
+                    temperature=0.3,
+                )
+            elif LLM_PROVIDER == "openai":
+                if not OPENAI_API_KEY:
+                    raise RuntimeError("OPENAI_API_KEY ausente - LLM indisponivel.")
+                self._llm = ChatOpenAI(
+                    api_key=OPENAI_API_KEY,
+                    model_name=MODEL_NAME,
+                    temperature=0.3,
+                )
+            else:
+                raise RuntimeError(f"LLM_PROVIDER invalido: {LLM_PROVIDER}")
         return self._llm
 
     def _retrieve(self, query: str, k: int) -> List[Tuple[Any, float]]:

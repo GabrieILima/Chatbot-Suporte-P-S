@@ -1,13 +1,22 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 import os
 import json
 import math
 from typing import List, Tuple, Dict, Any
 
 from langchain_core.documents import Document
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_openai import AzureOpenAIEmbeddings
 
-from src.config import CHROMA_PERSIST_DIR, EMBEDDING_MODEL
+from src.config import (
+    CHROMA_PERSIST_DIR,
+    EMBEDDING_MODEL,
+    EMBEDDING_PROVIDER,
+    AZURE_OPENAI_ENDPOINT,
+    AZURE_OPENAI_API_KEY,
+    AZURE_OPENAI_API_VERSION,
+    AZURE_OPENAI_EMBEDDING_DEPLOYMENT,
+)
 
 _embeddings_singleton = None
 _store_singleton = None
@@ -16,10 +25,22 @@ _store_singleton = None
 def get_embeddings():
     global _embeddings_singleton
     if _embeddings_singleton is None:
-        _embeddings_singleton = HuggingFaceEmbeddings(
-            model_name=EMBEDDING_MODEL,
-            cache_folder=None,
-        )
+        if EMBEDDING_PROVIDER == "azure":
+            if not (AZURE_OPENAI_ENDPOINT and AZURE_OPENAI_API_KEY and AZURE_OPENAI_EMBEDDING_DEPLOYMENT):
+                raise RuntimeError("Config Azure OpenAI incompleta para embeddings.")
+            _embeddings_singleton = AzureOpenAIEmbeddings(
+                azure_endpoint=AZURE_OPENAI_ENDPOINT,
+                api_key=AZURE_OPENAI_API_KEY,
+                api_version=AZURE_OPENAI_API_VERSION,
+                azure_deployment=AZURE_OPENAI_EMBEDDING_DEPLOYMENT,
+            )
+        elif EMBEDDING_PROVIDER == "huggingface":
+            _embeddings_singleton = HuggingFaceEmbeddings(
+                model_name=EMBEDDING_MODEL,
+                cache_folder=None,
+            )
+        else:
+            raise RuntimeError(f"EMBEDDING_PROVIDER invalido: {EMBEDDING_PROVIDER}")
     return _embeddings_singleton
 
 

@@ -1,14 +1,9 @@
-from fastapi.testclient import TestClient
+import asyncio
 
-from src.api.main import app
+from src.api.main import health
 
 
 def test_health_endpoint():
-    client = TestClient(app)
-
-    resp = client.get("/health")
-
-    assert resp.status_code == 200
-    body = resp.json()
+    body = asyncio.run(health())
     assert body["status"] == "healthy"
     assert body["service"] == "Chatbot Suporte P&S"

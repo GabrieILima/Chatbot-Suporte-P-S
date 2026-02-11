@@ -27,21 +27,29 @@ SUPPORTED_EXTENSIONS = {
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "500"))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "100"))
 
-# Configurações de embeddings e vectorstore
-# Diretório de persistência do Chroma
+# Diretório de persistência local do vectorstore
 CHROMA_PERSIST_DIR = BASE_DIR / "data" / "chroma"
 
-# Modelo de embeddings
+# Provedores (azure | openai | huggingface)
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "azure").lower()
+EMBEDDING_PROVIDER = os.getenv("EMBEDDING_PROVIDER", "azure").lower()
+
+# Azure OpenAI
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT", "")
+AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY", "")
+AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION", "2024-10-21")
+AZURE_OPENAI_CHAT_DEPLOYMENT = os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT", "")
+AZURE_OPENAI_EMBEDDING_DEPLOYMENT = os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT", "")
+
+# OpenAI legada (fallback/compatibilidade)
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+MODEL_NAME = os.getenv("MODEL_NAME", "gpt-3.5-turbo")
+
+# HuggingFace local (fallback/compatibilidade)
 EMBEDDING_MODEL = os.getenv(
     "EMBEDDING_MODEL",
     "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
 )
-
-# Chave da OpenAI
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-
-# Nome do modelo LLM
-MODEL_NAME = os.getenv("MODEL_NAME", "gpt-3.5-turbo")
 
 # Configurações da API
 API_HOST = os.getenv("API_HOST", "0.0.0.0")

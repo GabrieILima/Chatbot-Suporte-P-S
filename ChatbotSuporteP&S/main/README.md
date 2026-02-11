@@ -58,6 +58,18 @@ cp .env.example .env
 ```
 
 5. Configure as variaveis de ambiente (especialmente `OPENAI_API_KEY`).
+Para Azure OpenAI, configure no `.env`:
+- `LLM_PROVIDER=azure`
+- `EMBEDDING_PROVIDER=azure`
+- `AZURE_OPENAI_ENDPOINT`
+- `AZURE_OPENAI_API_KEY`
+- `AZURE_OPENAI_API_VERSION`
+- `AZURE_OPENAI_CHAT_DEPLOYMENT`
+- `AZURE_OPENAI_EMBEDDING_DEPLOYMENT`
+
+Se quiser fallback local/legado:
+- `LLM_PROVIDER=openai` + `OPENAI_API_KEY`
+- `EMBEDDING_PROVIDER=huggingface` + `EMBEDDING_MODEL`
 
 6. Instale dependencias de runtime:
 ```bash

@@ -7,7 +7,7 @@ import re
 
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_community.document_loaders.word_document import Docx2txtLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 
 logger = logging.getLogger(__name__)
