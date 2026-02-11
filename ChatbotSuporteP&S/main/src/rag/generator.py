@@ -1,7 +1,7 @@
 import logging
 from typing import List, Tuple, Dict, Any
 from langchain_openai import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 
 from src.config import OPENAI_API_KEY, MODEL_NAME
 from src.rag.vectorstore import get_vectorstore

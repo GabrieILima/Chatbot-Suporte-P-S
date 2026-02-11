@@ -8,3 +8,4 @@ sentence-transformers==2.2.2
 pydantic==2.5.0
 pypdf==3.17.1
 docx2txt==0.8
+python-multipart==0.0.9
