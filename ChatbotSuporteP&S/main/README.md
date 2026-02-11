@@ -31,7 +31,7 @@ chatbot/
 
 ### Pre-requisitos
 
-- Python 3.11+
+- Python 3.11.x (recomendado)
 - Docker (opcional)
 
 ### Configuracao Local
@@ -42,24 +42,34 @@ git clone <repo-url>
 cd chatbot
 ```
 
-2. Crie arquivo `.env` a partir do exemplo:
+2. Garanta o Python 3.11 (o projeto inclui `.python-version`):
+```bash
+python --version
+```
+
+3. Crie e ative o ambiente virtual:
+```bash
+python -m venv .venv
+```
+
+4. Crie arquivo `.env` a partir do exemplo:
 ```bash
 cp .env.example .env
 ```
 
-3. Configure as variaveis de ambiente (especialmente `OPENAI_API_KEY`).
+5. Configure as variaveis de ambiente (especialmente `OPENAI_API_KEY`).
 
-4. Instale dependencias de runtime:
+6. Instale dependencias de runtime:
 ```bash
 pip install -r requirements.txt
 ```
 
-5. (Opcional) Instale dependencias de desenvolvimento/scripts:
+7. (Opcional) Instale dependencias de desenvolvimento/scripts:
 ```bash
 pip install -r requirements-dev.txt
 ```
 
-6. Execute a API:
+8. Execute a API:
 ```bash
 uvicorn src.api.main:app --reload
 ```

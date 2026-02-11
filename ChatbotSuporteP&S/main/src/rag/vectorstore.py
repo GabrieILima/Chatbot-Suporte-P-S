@@ -5,7 +5,7 @@ import math
 from typing import List, Tuple, Dict, Any
 
 from langchain_core.documents import Document
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 from src.config import CHROMA_PERSIST_DIR, EMBEDDING_MODEL
 
