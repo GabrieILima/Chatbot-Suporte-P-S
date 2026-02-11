@@ -24,24 +24,26 @@ SUPPORTED_EXTENSIONS = {
 }
 
 # Configurações de chunking para RAG
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 100
+CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "500"))
+CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "100"))
 
 # Configurações de embeddings e vectorstore
 # Diretório de persistência do Chroma
 CHROMA_PERSIST_DIR = BASE_DIR / "data" / "chroma"
 
 # Modelo de embeddings
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+EMBEDDING_MODEL = os.getenv(
+    "EMBEDDING_MODEL",
+    "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+)
 
 # Chave da OpenAI
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
 # Nome do modelo LLM
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-3.5-turbo")
-EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-CHROMA_PERSIST_DIR = CHROMA_DIR
 
-# Configurações de OpenAI e LLM
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-MODEL_NAME = "gpt-3.5-turbo"
+# Configurações da API
+API_HOST = os.getenv("API_HOST", "0.0.0.0")
+API_PORT = int(os.getenv("API_PORT", "8000"))
+DEBUG = os.getenv("DEBUG", "False").lower() in {"1", "true", "yes", "y"}
