@@ -15,4 +15,6 @@ def test_generate_fallback_when_llm_unavailable(monkeypatch):
 
     assert result["status"] == "success"
     assert "LLM" in result["answer"]
+    assert "Resumo do contexto" in result["answer"]
+    assert "conteudo relevante" in result["answer"]
     assert result["sources"] == ["doc.txt"]
